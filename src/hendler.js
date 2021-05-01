@@ -75,12 +75,40 @@ const addBook = (req, hendler) => {
     .code(201);
 };
 
-const getAllBooks = () => ({
-  status: "success",
-  data: {
-    books,
-  },
-});
+const getAllBooks = (request, hendler) => {
+  const { name, reading, finished } = request.query;
+
+  let booksThatClientNeed = books;
+
+  if (Object.values(request.query).length > 0) {
+    booksThatClientNeed = books.filter((book) => {
+      if (name) {
+        const bookNameLower = String(book.name).toLowerCase();
+        const filterNameLower = String(name).toLowerCase();
+        if (bookNameLower.includes(filterNameLower)) {
+          return false;
+        }
+      }
+
+      if (reading && Boolean(book.reading) != reading) {
+        return false;
+      }
+
+      if (finished && Boolean(book.finished) != finished) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  return {
+    status: "success",
+    data: {
+      books: booksThatClientNeed,
+    },
+  };
+};
 
 const getBookById = (request, hendler) => {
   const id = request.params.bookId;
