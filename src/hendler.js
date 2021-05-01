@@ -4,7 +4,7 @@ const { nanoid } = require("nanoid");
 // models
 const books = require("./books");
 
-const addBooksHendler = (req, hendler) => {
+const addBook = (req, hendler) => {
   const {
     name,
     year,
@@ -16,22 +16,22 @@ const addBooksHendler = (req, hendler) => {
   } = req.payload;
 
   if (!name) {
-    const response = hendler.response({
-      status: "fail",
-      message: "Gagal menambahkan buku. Mohon isi nama buku",
-    });
-    response.code(400);
-    return response;
+    return hendler
+      .response({
+        status: "fail",
+        message: "Gagal menambahkan buku. Mohon isi nama buku",
+      })
+      .code(400);
   }
 
   if (readPage > pageCount) {
-    const response = hendler.response({
-      status: "fail",
-      message:
-        "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
-    });
-    response.code(400);
-    return response;
+    return hendler
+      .response({
+        status: "fail",
+        message:
+          "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
+      })
+      .code(400);
   }
 
   const id = nanoid(16);
@@ -54,23 +54,51 @@ const addBooksHendler = (req, hendler) => {
   const bookAdded = books.filter((book) => book.id === id).length > 0;
 
   if (!bookAdded) {
-    const response = hendler.response({
-      status: "error",
-      message: "Buku gagal ditambahkan",
-    });
-    response.code(500);
-    return response;
+    return hendler
+      .response({
+        status: "error",
+        message: "Buku gagal ditambahkan",
+      })
+      .code(500);
   }
 
-  const response = hendler.response({
-    status: "success",
-    message: "Buku berhasil ditambahkan",
-    data: {
-      bookId: id,
-    },
-  });
-  response.code(201);
-  return response;
+  return hendler
+    .response({
+      status: "success",
+      message: "Buku berhasil ditambahkan",
+      data: {
+        bookId: id,
+      },
+    })
+    .code(201);
 };
 
-module.exports = { addBooksHendler };
+const getAllBooks = () => ({
+  status: "success",
+  data: {
+    books,
+  },
+});
+
+const getBookById = (request, hendler) => {
+  const id = request.params.bookId;
+  const book = books.find((book) => book.id == id);
+
+  if (!book) {
+    return hendler
+      .response({
+        status: "fail",
+        message: "Buku tidak ditemukan",
+      })
+      .code(404);
+  }
+
+  return {
+    status: "success",
+    data: {
+      book,
+    },
+  };
+};
+
+module.exports = { addBook, getAllBooks, getBookById };
