@@ -11,6 +11,7 @@
   "rules": {
     "quotes": "off",
     "semi": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "eqeqeq": "off"
   }
 }
