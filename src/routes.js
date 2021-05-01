@@ -21,4 +21,9 @@ module.exports = [
     path: "/books/{bookId}",
     handler: hendler.editBookById,
   },
+  {
+    method: "DELETE",
+    path: "/books/{bookId}",
+    handler: hendler.deleteBookById,
+  },
 ];

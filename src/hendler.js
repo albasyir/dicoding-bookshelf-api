@@ -168,4 +168,32 @@ const editBookById = (request, hendler) => {
   };
 };
 
-module.exports = { addBook, getAllBooks, getBookById, editBookById };
+const deleteBookById = (request, hendler) => {
+  const id = request.params.bookId;
+
+  const index = books.findIndex((book) => book.id === id);
+
+  if (index < 0) {
+    return hendler
+      .response({
+        status: "fail",
+        message: "Buku gagal dihapus. Id tidak ditemukan",
+      })
+      .code(400);
+  }
+
+  books.splice(index, 1);
+
+  return {
+    status: "success",
+    message: "Buku berhasil dihapus",
+  };
+};
+
+module.exports = {
+  addBook,
+  getAllBooks,
+  getBookById,
+  editBookById,
+  deleteBookById,
+};
