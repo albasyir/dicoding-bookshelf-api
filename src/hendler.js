@@ -9,6 +9,7 @@ const addBook = (req, hendler) => {
     name,
     year,
     author,
+    summary,
     publisher,
     pageCount,
     readPage,
@@ -42,6 +43,7 @@ const addBook = (req, hendler) => {
     name,
     year,
     author,
+    summary,
     publisher,
     pageCount,
     readPage,
@@ -101,4 +103,69 @@ const getBookById = (request, hendler) => {
   };
 };
 
-module.exports = { addBook, getAllBooks, getBookById };
+const editBookById = (request, hendler) => {
+  const id = request.params.bookId;
+
+  const {
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+  } = request.payload;
+
+  if (!name) {
+    return hendler
+      .response({
+        status: "fail",
+        message: "Gagal menambahkan buku. Mohon isi nama buku",
+      })
+      .code(400);
+  }
+
+  if (readPage > pageCount) {
+    return hendler
+      .response({
+        status: "fail",
+        message:
+          "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
+      })
+      .code(400);
+  }
+
+  const index = books.findIndex((book) => book.id === id);
+
+  if (index < 0) {
+    return hendler
+      .response({
+        status: "fail",
+        message: "Gagal memperbarui buku. Id tidak ditemukan",
+      })
+      .code(400);
+  }
+
+  const updatedAt = new Date().toISOString();
+
+  books[index] = {
+    id,
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+    updatedAt,
+  };
+
+  return {
+    status: "success",
+    message: "Buku berhasil diperbarui",
+  };
+};
+
+module.exports = { addBook, getAllBooks, getBookById, editBookById };

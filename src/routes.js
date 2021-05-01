@@ -16,4 +16,9 @@ module.exports = [
     path: "/books/{bookId}",
     handler: hendler.getBookById,
   },
+  {
+    method: "PUT",
+    path: "/books/{bookId}",
+    handler: hendler.editBookById,
+  },
 ];
