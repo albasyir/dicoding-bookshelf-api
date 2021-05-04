@@ -49,7 +49,7 @@ const addBook = (req, hendler) => {
     readPage,
     finished: false,
     reading,
-    insertAt: now,
+    insertedAt: now,
     updatedAt: now,
   });
 
