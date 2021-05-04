@@ -156,7 +156,7 @@ const editBookById = (request, hendler) => {
     return hendler
       .response({
         status: "fail",
-        message: "Gagal menambahkan buku. Mohon isi nama buku",
+        message: "Gagal memperbarui buku. Mohon isi nama buku",
       })
       .code(400);
   }
@@ -166,7 +166,7 @@ const editBookById = (request, hendler) => {
       .response({
         status: "fail",
         message:
-          "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
+          "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
       })
       .code(400);
   }
@@ -179,7 +179,7 @@ const editBookById = (request, hendler) => {
         status: "fail",
         message: "Gagal memperbarui buku. Id tidak ditemukan",
       })
-      .code(400);
+      .code(404);
   }
 
   const updatedAt = new Date().toISOString();
@@ -215,7 +215,7 @@ const deleteBookById = (request, hendler) => {
         status: "fail",
         message: "Buku gagal dihapus. Id tidak ditemukan",
       })
-      .code(400);
+      .code(404);
   }
 
   books.splice(index, 1);
