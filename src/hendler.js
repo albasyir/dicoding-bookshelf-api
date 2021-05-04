@@ -149,6 +149,7 @@ const editBookById = (request, hendler) => {
     pageCount,
     readPage,
     reading,
+    finished,
   } = request.payload;
 
   if (!name) {
@@ -193,6 +194,7 @@ const editBookById = (request, hendler) => {
     pageCount,
     readPage,
     reading,
+    finished,
     updatedAt,
   };
 
