@@ -102,6 +102,12 @@ const getAllBooks = (request, hendler) => {
     });
   }
 
+  booksThatClientNeed = booksThatClientNeed.map((book) => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher,
+  }));
+
   return {
     status: "success",
     data: {
