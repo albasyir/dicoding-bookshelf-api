@@ -185,6 +185,7 @@ const editBookById = (request, hendler) => {
   const updatedAt = new Date().toISOString();
 
   books[index] = {
+    ...books[index],
     id,
     name,
     year,
